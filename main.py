@@ -14,6 +14,28 @@ canvas.create_image(100, 100, image=canvas_img)
 canvas.grid(column=1, row=0)
 
 
+"---------------------------------Password Generator------------------------------------------------------------"
+def generate_password():
+    letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']
+    numbers = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']
+    symbols = ['!', '#', '$', '%', '&', '(', ')', '*', '+']
+
+    nr_letters = random.randint(8, 10)
+    nr_symbols = random.randint(2, 4)
+    nr_numbers = random.randint(2, 4)
+
+    password_list = []
+    password_list += [random.choice(letters) for char in range(nr_letters)]
+    password_list += [random.choice(symbols) for char in range(nr_symbols)]
+    password_list += [random.choice(numbers) for char in range(nr_numbers)]
+
+    random.shuffle(password_list)
+
+    password = "".join(password_list)
+
+    password_entry.insert(0, password)
+
+
 "---------------------------------------Save to File---------------------------------------------------------------"
 def add_entry():
 
@@ -37,10 +59,10 @@ def add_entry():
 
 "--------------------------------------------User Interface-------------------------------------------------------"
 # Buttons
-generate_button = Button(text="Generate Password")
+generate_button = Button(text="Generate Password", command=generate_password)
 generate_button.grid(column=2, row=3)
 
-add_button = Button(text="Add", width=37)
+add_button = Button(text="Add", width=37, command=add_entry)
 add_button.grid(column=1, row=4, columnspan=2, sticky=E)
 
 # labels
