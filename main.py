@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 import random
 import pyperclip
+import json
 
 window = Tk()
 window.title("Password Manager")
@@ -43,16 +44,25 @@ def add_entry():
     website = website_entry.get()
     username = username_entry.get()
     password = password_entry.get()
+    new_data = {
+        website: {
+            "email": username,
+            "password": password
+        }
+    }
 
     if len(website) == 0 or len(username) == 0 or len(password) == 0:
         messagebox.showinfo(title="error", message="Please fill all fields")
     else:
-        is_ok = messagebox.askokcancel(title=website, message=f"These are the details entered\nEmail: {username}\n"
-                                                              f"Password: {password} \nIs it ok to save?")
-        if is_ok:
-            with open("password_entries.txt", "a") as file:
-                file.write(f"{website} | {username} | {password}")
-                file.write("\n")
+        # is_ok = messagebox.askokcancel(title=website, message=f"These are the details entered\nEmail: {username}\n"
+        #                                                       f"Password: {password} \nIs it ok to save?")
+        # if is_ok:
+        with open("data.json", "r") as read_file:
+            data = json.load(read_file)
+            data.update(new_data)
+        with open("data.json", "w") as file:
+            json.dump(data, file, indent=4)
+
             website_entry.delete(0, "end")
             password_entry.delete(0, "end")
             website_entry.focus()
